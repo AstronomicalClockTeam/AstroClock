@@ -22,6 +22,13 @@ img = pygame.image.load(os.path.join("pictures", "analogClock.png"))
 w, h = img.get_size()
 img = pygame.transform.scale(img, (int(w * 1.785), int(h * 1.778)))
 
+#Quadrants
+Q1 = [190, 190]
+Q2 = [-190, 190]
+Q3 = [-190, -190]
+Q4 = [190, -190]
+QUAD = [Q1, Q2, Q3, Q4]
+
 # time
 timeSec = 1000
 timeMin = 6000
@@ -45,13 +52,26 @@ class Clock(object):
         screen.blit(img, (0, 0))
         pygame.draw.ellipse(screen, BLACK, [0, 0, 400, 400], 3)
 
-    def quadCount(self):
-        # Note: Q1-(200, 10), Q2-(390, 200), Q3-(200, 390), Q4-(10, 200)
-
-
     def armTimes(self):
         # second hand
-        pygame.draw.line(screen, RED, (200, 200), (390, 200), 2)
+        for a in QUAD:
+            i = 0
+            j = 0
+            while i <= a[0] and j <= a[1]:
+                if a[0] > 0:
+                    i += 12.667
+                    if a[1] > 0:
+                        j += 12.667
+                    else:
+                        j -= 12.667
+                else:
+                    i -= 12.667
+                    if a[1] > 0:
+                        j += 12.667
+                    else:
+                        j -= 12.667
+                yield i, j
+
 
         #  comment before it
 
@@ -63,6 +83,7 @@ done = False
 
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
+arms = frame.armTimes()
 
 # -------- Main Program Loop -----------
 while not done:
@@ -84,7 +105,13 @@ while not done:
 
     # --- Drawing code should go here
     frame.facePlate()
-    frame.armTimes()
+    try:
+        new_pos = next(arms)
+    except StopIteration:
+        arms = frame.armTimes()
+        new_pos = next(arms)
+
+    pygame.draw.line(screen, RED, (200, 200), new_pos, 2)
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
