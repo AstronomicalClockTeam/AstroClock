@@ -10,6 +10,8 @@
 """
 import os
 import pygame
+import math
+import time
 
 # Define some colors
 BLACK = (0, 0, 0)
@@ -22,14 +24,9 @@ img = pygame.image.load(os.path.join("pictures", "analogClock.png"))
 w, h = img.get_size()
 img = pygame.transform.scale(img, (int(w * 1.785), int(h * 1.778)))
 
-#Quadrants
-Q1 = [190, 190]
-Q2 = [-190, 190]
-Q3 = [-190, -190]
-Q4 = [190, -190]
-QUAD = [Q1, Q2, Q3, Q4]
-
 # time
+x = 0
+timeCount = 0
 timeSec = 1000
 timeMin = 6000
 timeHr = 3600000
@@ -42,39 +39,24 @@ screen = pygame.display.set_mode(size)
 
 pygame.display.set_caption("12 Hour Clock")
 
-
 class Clock(object):
 
     def __init__(self):
         self.facePlate()
+        self.armTimes()
 
     def facePlate(self):
         screen.blit(img, (0, 0))
         pygame.draw.ellipse(screen, BLACK, [0, 0, 400, 400], 3)
 
     def armTimes(self):
+        pass
         # second hand
-        for a in QUAD:
-            i = 0
-            j = 0
-            while i <= a[0] and j <= a[1]:
-                if a[0] > 0:
-                    i += 12.667
-                    if a[1] > 0:
-                        j += 12.667
-                    else:
-                        j -= 12.667
-                else:
-                    i -= 12.667
-                    if a[1] > 0:
-                        j += 12.667
-                    else:
-                        j -= 12.667
-                yield i, j
-
-
+        # for x in range(360):
+        #     cordX = 190*math.cos(x)
+        #     cordY = 190*math.sin(x)
+        #     pygame.draw.line(screen, RED, (200, 200), (cordX, cordY), 2)
         #  comment before it
-
 
 frame = Clock()
 
@@ -83,7 +65,6 @@ done = False
 
 # Used to manage how fast the screen updates
 clock = pygame.time.Clock()
-arms = frame.armTimes()
 
 # -------- Main Program Loop -----------
 while not done:
@@ -105,16 +86,19 @@ while not done:
 
     # --- Drawing code should go here
     frame.facePlate()
-    try:
-        new_pos = next(arms)
-    except StopIteration:
-        arms = frame.armTimes()
-        new_pos = next(arms)
-
-    pygame.draw.line(screen, RED, (200, 200), new_pos, 2)
+    # frame.armTimes()
+    hyp = 190
+    cordX = (hyp * math.cos(math.radians(x))) + 200
+    cordY = (hyp * math.sin(math.radians(x))) + 200
+    print(cordX, cordY)
+    pygame.draw.line(screen, RED, (200, 200), (cordX, cordY), 2)
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
+    tm_sec = time.localtime()[5]
+    if tm_sec == timeCount:
+        timeCount += 1 % 60
+        x = (x + 1) % 360
 
     # --- Limit to 60 frames per second
     clock.tick(60)
