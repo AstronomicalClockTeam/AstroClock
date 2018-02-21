@@ -25,7 +25,10 @@ w, h = img.get_size()
 img = pygame.transform.scale(img, (int(w * 1.785), int(h * 1.778)))
 
 # time
-x = 0
+move_sec = 0
+move_min = 0
+move_hr = 0
+HYP = 190
 timeCount = 0
 timeSec = 1000
 timeMin = 6000
@@ -39,6 +42,7 @@ screen = pygame.display.set_mode(size)
 
 pygame.display.set_caption("12 Hour Clock")
 
+
 class Clock(object):
 
     def __init__(self):
@@ -50,13 +54,21 @@ class Clock(object):
         pygame.draw.ellipse(screen, BLACK, [0, 0, 400, 400], 3)
 
     def armTimes(self):
-        pass
-        # second hand
-        # for x in range(360):
-        #     cordX = 190*math.cos(x)
-        #     cordY = 190*math.sin(x)
-        #     pygame.draw.line(screen, RED, (200, 200), (cordX, cordY), 2)
-        #  comment before it
+        # Runs and Draws the Seconds-Hand
+        secX = (HYP * math.cos(math.radians(move_sec))) + 200
+        secY = (HYP * math.sin(math.radians(move_sec))) + 200
+        pygame.draw.line(screen, RED, (200, 200), (secX, secY), 2)
+
+        # Runs and Draws the Minutes-Hand
+        minX = (HYP * math.cos(math.radians(move_min))) + 200
+        minY = (HYP * math.sin(math.radians(move_min))) + 200
+        pygame.draw.line(screen, BLACK, (200, 200), (minX, minY), 3)
+
+        # Runs and Draws the Hours-Hand
+        hrX = (HYP * math.cos(math.radians(move_hr))/1.5) + 200
+        hrY = (HYP * math.sin(math.radians(move_hr))/1.5) + 200
+        pygame.draw.line(screen, BLACK, (200, 200), (hrX, hrY), 3)
+
 
 frame = Clock()
 
@@ -86,19 +98,23 @@ while not done:
 
     # --- Drawing code should go here
     frame.facePlate()
-    # frame.armTimes()
-    hyp = 190
-    cordX = (hyp * math.cos(math.radians(x))) + 200
-    cordY = (hyp * math.sin(math.radians(x))) + 200
-    print(cordX, cordY)
-    pygame.draw.line(screen, RED, (200, 200), (cordX, cordY), 2)
+    frame.armTimes()
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
+
+    # Updates Seconds
     tm_sec = time.localtime()[5]
-    if tm_sec == timeCount:
-        timeCount += 1 % 60
-        x = (x + 1) % 360
+    move_sec = (tm_sec * 6 - 90) % 360
+
+    # Updates Minutes
+    tm_min = time.localtime()[4]
+    move_min = (tm_min * 6 - 90) % 360
+
+    # Updates Hours
+    tm_hr = time.localtime()[3]
+    move_hr = (((tm_min // 12) * 6) + ((tm_hr % 12) * 30) - 90) % 360
+
 
     # --- Limit to 60 frames per second
     clock.tick(60)
