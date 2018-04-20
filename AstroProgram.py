@@ -14,10 +14,6 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 
-
-# Dictionary for Roman Numerals
-Numeral_Dict = {}
-
 # time
 walk = 0
 type_x = 0
@@ -35,7 +31,7 @@ rotate = 360
 
 def setxAngleAttribute(x_angle):
     x = (HYP * math.cos(math.radians(x_angle)))
-    print("x:",  x)
+    print("x:", x)
     return x
 
 
@@ -44,8 +40,8 @@ def setyAngleAttribute(y_angle):
     print("y:", y)
     return y
 
-
 # Starts Pygame
+
 
 pygame.init()
 
@@ -61,25 +57,38 @@ pygame.display.set_caption("Astronomical Clock")
 # Numbers to be drawn
 one = name_font.render("I", 1, (0, 0, 0))
 two = name_font.render("II", 1, (0, 0, 0))
-
+three = name_font.render("III", 1, (0, 0, 0))
+four = name_font.render("IV", 1, (0, 0, 0))
+five = name_font.render("V", 1, (0, 0, 0))
+six = name_font.render("VI", 1, (0, 0, 0))
+seven = name_font.render("VII", 1, (0, 0, 0))
+twelve = name_font.render("XII", 1, (0, 0, 0))
+eighteen = name_font.render("XVIII", 1, (0, 0, 0))
 twenty_four = name_font.render("XXIV", 1, (0, 0, 0))
 
 
 class Clock(object):
 
     def __init__(self):
-        self.Hour24_Face()
-        self.Hour_Hands()
-        self.x = 0
-        self.y = 0
-
-    def Hour24_Face(self):
-
-        screen.blit(one, (setxAngleAttribute(-15), setyAngleAttribute(-15)))
-
+        self.hour24_face()
+        self.hour_hands()
 
     @staticmethod
-    def Hour_Hands():
+    def hour24_face():
+        # +200 because 200 is center and numbers to need to rotate around it
+        screen.blit(twenty_four, (setxAngleAttribute(265)+200, setyAngleAttribute(265)+200))
+        screen.blit(one, (setxAngleAttribute(285)+200, setyAngleAttribute(285)+200))
+        screen.blit(two, (setxAngleAttribute(300)+200, setyAngleAttribute(300)+200))
+        screen.blit(three, (setxAngleAttribute(315)+200, setyAngleAttribute(315)+200))
+        screen.blit(four, (setxAngleAttribute(330)+200, setyAngleAttribute(330)+200))
+        screen.blit(five, (setxAngleAttribute(345)+200, setyAngleAttribute(345)+200))
+        screen.blit(six, (setxAngleAttribute(0)+200, setyAngleAttribute(0)+200))
+        screen.blit(seven, (setxAngleAttribute(15)+200, setyAngleAttribute(15)+200))
+
+        screen.blit(twelve, (setxAngleAttribute(90)+200, setyAngleAttribute(90)+200))
+        screen.blit(eighteen, (setxAngleAttribute(180)+200, setyAngleAttribute(180)+200))
+    @staticmethod
+    def hour_hands():
         """Runs and Draws the Seconds-Hand"""
         secX = (HYP * math.cos(math.radians(move_sec))) + 200
         secY = (HYP * math.sin(math.radians(move_sec))) + 200
@@ -116,8 +125,8 @@ while not done:
 
     # --- Drawing code should go here
     pygame.draw.circle(screen, BLACK, (200, 200), 200, 1)
-    frame.Hour_Hands()
-    frame.Hour24_Face()
+    frame.hour_hands()
+    frame.hour24_face()
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
