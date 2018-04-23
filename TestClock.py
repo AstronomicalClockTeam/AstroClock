@@ -24,6 +24,7 @@ img = pygame.image.load(os.path.join("pictures", "analogClock.png"))
 w, h = img.get_size()
 img = pygame.transform.scale(img, (int(w * 1.785), int(h * 1.778)))
 
+
 # time
 move_sec = 0
 move_min = 0
@@ -34,7 +35,11 @@ timeSec = 1000
 timeMin = 6000
 timeHr = 3600000
 
+rotate = 360
+
+
 pygame.init()
+
 
 # Set the width and height of the screen [width, height]
 size = (400, 400)
@@ -48,6 +53,8 @@ class Clock(object):
     def __init__(self):
         self.facePlate()
         self.armTimes()
+        self.rotateClock()
+
 
     def facePlate(self):
         screen.blit(img, (0, 0))
@@ -69,6 +76,11 @@ class Clock(object):
         hrY = (HYP * math.sin(math.radians(move_hr))/1.5) + 200
         pygame.draw.line(screen, BLACK, (200, 200), (hrX, hrY), 3)
 
+    def rotateClock(self):
+        global img, rotate
+        # rotates the clock
+        img = pygame.transform.rotate(img, rotate)
+        # print(img.get_size())
 
 frame = Clock()
 
@@ -99,6 +111,7 @@ while not done:
     # --- Drawing code should go here
     frame.facePlate()
     frame.armTimes()
+    frame.rotateClock()
 
     # --- Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
@@ -115,6 +128,12 @@ while not done:
     tm_hr = time.localtime()[3]
     move_hr = (((tm_min // 12) * 6) + ((tm_hr % 12) * 30) - 90) % 360
 
+
+    # rotate clock
+    '''if rotate > 0:
+        rotate -= 90
+    else:
+        rotate = 360'''
 
     # --- Limit to 60 frames per second
     clock.tick(60)
