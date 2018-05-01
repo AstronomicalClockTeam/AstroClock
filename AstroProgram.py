@@ -32,8 +32,12 @@ tm_sec = 0
 tm_min = 0
 tm_hr = 0
 
-# dictionary to hold numeral for printing
+# dictionaries
 numeral_dict = {}
+zodiac_dict = {}
+
+#Lists
+zodiac_list = ["Aquarius", "Pisces", "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn"]
 
 
 def setxAngleAttribute(x_angle):
@@ -84,6 +88,7 @@ class Clock(object):
     def __init__(self):
         self.hour24_face()
         self.hour_hands()
+        self.zodiac_info()
 
     @staticmethod
     def hour24_face():
@@ -109,6 +114,51 @@ class Clock(object):
         hrY = (HYP * math.sin(math.radians(move_hr))/1.5) + 200
         pygame.draw.line(screen, BLACK, (200, 200), (hrX, hrY), 3)
 
+    @staticmethod
+    def zodiac_info():
+        """Prints the appropriate info based on the sign"""
+        # URL: http://www.astrology-zodiac-signs.com/
+
+        # Aquarius
+        zodiac_dict['Aquarius'] = 'Aquarius: \n' + 'Element: Air\n' + 'Compatible: Leo & Sagittarius\n' + 'Strengths: Progressive, Original, Independent, Humanitarian\n' + 'Weaknesses: Runs from emotional expression, Temperamental, Uncompromising, Aloof\n' + 'Likes: Fun with Friends, Helping Others, Fighting for causes, Intellectual Conversation, A good listener\n' + 'Dislikes: Limitations, Broken Promises, Being Lonely, Dull or Boring situation, Disagreements\n'
+
+        # Pisces
+        zodiac_dict['Pisces'] = 'Pisces: \n' + 'Element: Water\n' + 'Compatible: Virgo & Taurus\n' + 'Strengths: Compassionate, Artistic, Intuitive, Gentle, Wise, Musical\n' + 'Weaknesses: Fearful, Overly Trusting, Sadness, Desire to escape reality, Victimed or Martyred\n' + 'Likes: Being alone, Sleeping, Music, Romance, Visual Media, Swimming, Spiritual Themes\n' + 'Dislikes: Know-It-Alls, Criticism, Past Mistakes, Cruelty\n'
+
+        # Aries
+        zodiac_dict['Aries'] = 'Aries: \n' + 'Element: Fire\n' + 'Compatible: Libra & Leo\n' + 'Strengths: Courageous, Determined, Confident, Enthusiastic, Optimistic, Honest, Passionate\n' + 'Weaknesses: Impatient, Moody, Short-Tempered, Impulsive, Aggressive\n' + 'Likes: Comfortable clothes, Leadership, Physical challenge, Individual sports\n' + 'Dislikes: Inactivity, Delays, Work that does not use one\'s talents\n'
+
+        # Taurus
+        zodiac_dict['Taurus'] = 'Taurus: \n' + 'Element: Earth\n' + 'Compatible: Scorpio & Cancer\n' + 'Strengths: Reliable, patient, practical, devoted, responsible, stable\n' + 'Weaknesses: Stubborn, possessive, uncompromising\n' + 'Likes: Gardening, cooking, music, romance, high quality clothes, working with hands\n' + 'Dislikes: Sudden changes, complications, insecurity of any kind, synthetic fabrics\n'
+
+        # Gemini
+        zodiac_dict['Gemini'] = 'Gemini: \n' + 'Element: Air\n' + 'Compatible: Sagittarius & Aquarius\n' + 'Strengths: Gentle, affectionate, curious, adaptable, ability to learn quickly and exchange ideas\n' + 'Weaknesses: Nervous, inconsistent, indecisive\n' + 'Likes: Music, books, magazines, chats with nearly anyone, short trips around the town\n' + 'Dislikes: Being alone, being confined, repetition and routine\n'
+
+        # Cancer
+        zodiac_dict['Cancer'] = 'Cancer: \n' + 'Element: Water\n' + 'Compatible: Capricorn & Taurus\n' + 'Strengths: Tenacious, highly imaginative, loyal, emotional, sympathetic, persuasive\n' + 'Weaknesses: Moody, pessimistic, suspicious, manipulative, insecure\n' + 'Likes: Art, home-based hobbies, relaxing near or in water, helping loved ones, a good meal with friends\n' + 'Dislikes: Strangers, any criticism of Mom, revealing of personal life\n'
+
+        # Leo
+        zodiac_dict['Leo'] = 'Leo: \n' + 'Element: Fire\n' + 'Compatible: Aquarius & Gemini\n' + 'Strengths: Creative, passionate, generous, warm-hearted, cheerful, humorous\n' + 'Weaknesses: Arrogant, stubborn, self-centered, lazy, inflexible\n' + 'Likes: Theater, taking holidays, being admired, expensive things, bright colors, fun with friends\n' + 'Dislikes: Being ignored, facing difficult reality, not being treated like a king or queen\n'
+
+        # Virgo
+        zodiac_dict['Virgo'] = 'Virgo: \n' + 'Elements: Earth\n' + 'Compatible: Pisces & Cancer\n' + 'Strengths: Loyal, analytical, kind, hardworking, practical\n' + 'Weaknesses: Shyness, worry, overly critical of self and others, all work and no play\n' + 'Likes: Animals, healthy food, books, nature, cleanliness\n' + 'Dislikes: Rudeness, asking for help, taking center stage\n'
+
+        # Libra
+        zodiac_dict['Libra'] = 'Libra: \n' + 'Elements: Air\n' + 'Compatible: Aries & Sagittarius\n' + 'Strengths: Cooperative,diplomatic, gracious, fair-minded, social\n' + 'Weaknesses: Indecisive, avoids confrontations, will carry a grudge, self-pity\n' + 'Likes: Harmony, gentleness, sharing with others, the outdoors\n' + 'Dislikes: Violence, injustice, loudmouths, conformity\n'
+
+        # Scorpio
+        zodiac_dict['Scorpio'] = 'Scorpio: \n' + 'Elements: Water\n' + 'Compatible: Taurus & Cancer\n' + 'Strengths: Resourceful, brave, passionate, stubborn, a true friend\n' + 'Weaknesses: Distrusting, jealous, secretive, violent\n' + 'Likes: Truth, facts, being right, longtime friends, teasing, a grand passion\n' + 'Dislikes: Dishonesty, revealing secrets, passive people\n'
+
+        # Sagittarius
+        zodiac_dict['Sagittarius'] = 'Sagittarius: \n' + 'Elements: Fire\n' + 'Compatible: Gemini & Aries\n' + 'Strengths: Generous, idealistic, great sense of humor\n' + 'Weaknesses: Promises more than can deliver, very impatient, will say anything no matter how undiplomatic\n' + 'Likes: Freedom, travel, philosophy, being outdoors\n' + 'Dislikes: Clingy people, being constrained, off-the-wall theories, details\n'
+
+        # Capricorn
+        zodiac_dict['Capricorn'] = 'Capricorn: \n' + 'Elements: Earth\n' + 'Compatible: Taurus & Cancer\n' + 'Strengths: Responsible, disciplined, self-control, good managers\n' + 'Weaknesses: Know-it-all, unforgiving, condescending, expecting the worst\n' + 'Likes: Family, tradition, music, understated status, quality craftsmanship\n' + 'Dislikes: Almost everything at some point\n'
+
+        # Prints all the Zodiac Descriptions
+        '''for i in range(12):
+            sign = zodiac_list[i]
+            print(zodiac_dict[sign])'''
 
 frame = Clock()
 
